@@ -2,29 +2,24 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <!-- スマホでの拡大縮小を禁止し、アプリの操作感にする設定 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>iOS Style Clock</title>
     
-    <!-- ======================================================= -->
-    <!-- 📱 iPhoneアプリ化（PWA）のための設定 -->
-    <!-- ======================================================= -->
+    <!-- iPhoneアプリ化（PWA）設定 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="デジタル時計">
-    <!-- ホーム画面に表示されるアイコン画像の指定（同一フォルダに配置） -->
     <link rel="apple-touch-icon" href="icon.png">
-    <!-- ======================================================= -->
 
-    <!-- 各種デジタル・バリエーションフォントをインポート -->
+    <!-- Webフォントも選択肢として残すためにインポート -->
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com/css2?family=Chakra+Petch:wght@700&family=DotGothic16&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body data-theme="dark" data-font="sans">
+<body data-theme="dark" data-font="sans-apple">
 
-    <!-- 時計表示部分（クリックで全画面モード切り替え） -->
+    <!-- 時計表示部分 -->
     <div class="clock-container" onclick="toggleFullscreen()">
         <div class="date-display" id="date">----年--月--日 (-)</div>
         <div class="time-wrapper">
@@ -72,7 +67,7 @@
                 <button id="tab-timer" onclick="switchTab('timer')">タイマー</button>
             </div>
         </div>
-        <!-- 2段目：外観、時間表記、カラーセレクター、明るさ調整 -->
+        <!-- 2段目：外観、時間表記、カラー、明るさ -->
         <div class="controls-row">
             <div class="btn-group">
                 <button id="btn-theme-dark" onclick="changeTheme('dark')">Dark</button>
@@ -82,24 +77,32 @@
                 <button id="btn-format-24h" onclick="changeFormat(true)">24H</button>
                 <button id="btn-format-12h" onclick="changeFormat(false)">12H</button>
             </div>
-            <!-- カラーパレット -->
             <div class="color-picker-wrapper">
                 🎨 <input type="color" id="clock-color-picker" onchange="changeClockColor(this.value)" value="#ff9500">
             </div>
-            <!-- 明るさスライダー（ディマー機能） -->
             <div class="brightness-wrapper">
                 🔆 <input type="range" id="brightness-slider" min="10" max="100" value="100" oninput="changeBrightness(this.value)">
             </div>
         </div>
-        <!-- 3段目：フォント切り替え -->
+        <!-- 3段目：iPhone内蔵フォントを含むドロップダウンリスト -->
         <div class="controls-row">
-            <div class="btn-group font-group">
-                <button id="btn-font-digital7" onclick="changeFont('digital7')">Digital-7</button>
-                <button id="btn-font-sans" onclick="changeFont('sans')">Digital</button>
-                <button id="btn-font-future" onclick="changeFont('future')">Cyber</button>
-                <button id="btn-font-pixel" onclick="changeFont('pixel')">Pixel</button>
-                <button id="btn-font-serif" onclick="changeFont('serif')">Serif</button>
-                <button id="btn-font-mono" onclick="changeFont('mono')">Mono</button>
+            <div class="dropdown-wrapper">
+                <span class="dropdown-label">🔤 フォント:</span>
+                <select id="font-selector" onchange="changeFont(this.value)">
+                    <!-- iPhone(iOS)の内蔵システムフォント群 -->
+                    <option value="sans-apple">iOS Standard (San Francisco)</option>
+                    <option value="mono-apple">iOS Terminal (SF Mono)</option>
+                    <option value="serif-apple">iOS Serif (New York)</option>
+                    <option value="hiragino-gothic">ヒラギノ角ゴ (Hiragino Sans)</option>
+                    <option value="hiragino-mincho">ヒラギノ明朝 (Hiragino Mincho)</option>
+                    <option value="copperplate">Copperplate (クラシック体)</option>
+                    <option value="futura">Futura (洗練された幾何学体)</option>
+                    <!-- Webデジタルフォント群 -->
+                    <option value="digital7">Digital-7 (リアル液晶)</option>
+                    <option value="sans">Digital (スマート液晶)</option>
+                    <option value="future">Cyber (近未来)</option>
+                    <option value="pixel">Pixel (8-Bitレトロ)</option>
+                </select>
             </div>
         </div>
     </div>
