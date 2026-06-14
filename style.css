@@ -23,23 +23,33 @@
     --border-color: #e5e5ea;
 }
 
-/* --- フォントファミリーの定義 --- */
-[data-font="sans"] .time-display, [data-font="sans"] .seconds-display, [data-font="sans"] .period-display { font-family: 'VT323', monospace; font-weight: normal; letter-spacing: 0.02em; }
-body[data-font="sans"] .time-display { font-size: 17vw; }
-body[data-font="sans"].fullscreen-mode .time-display { font-size: 26vw; }
-[data-font="sans"] { font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+/* --- ★ フォントファミリーの定義（iPhone内蔵を含む全11パターン） --- */
 
-[data-font="future"] .time-display, [data-font="future"] .seconds-display, [data-font="future"] .period-display { font-family: 'Chakra Petch', sans-serif; font-weight: 700; letter-spacing: 0em; }
-[data-font="future"] { font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+/* iPhoneシステムフォント */
+[data-font="sans-apple"] .time-display, [data-font="sans-apple"] .seconds-display { font-family: -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: -0.02em; }
+[data-font="mono-apple"] .time-display, [data-font="mono-apple"] .seconds-display { font-family: "SF Mono", Menlo, monospace; }
+[data-font="serif-apple"] .time-display, [data-font="serif-apple"] .seconds-display { font-family: "New York", Georgia, serif; }
+[data-font="hiragino-gothic"] .time-display, [data-font="hiragino-gothic"] .seconds-display { font-family: "Hiragino Sans", "ヒラギノ角ゴシック", sans-serif; }
+[data-font="hiragino-mincho"] .time-display, [data-font="hiragino-mincho"] .seconds-display { font-family: "Hiragino Mincho ProN", "ヒラギノ明朝", serif; }
+[data-font="copperplate"] .time-display, [data-font="copperplate"] .seconds-display { font-family: "Copperplate", sans-serif; letter-spacing: 0.05em; }
+[data-font="futura"] .time-display, [data-font="futura"] .seconds-display { font-family: "Futura", sans-serif; letter-spacing: -0.03em; }
 
-[data-font="pixel"] .time-display, [data-font="pixel"] .seconds-display, [data-font="pixel"] .period-display { font-family: 'DotGothic16', sans-serif; }
-[data-font="pixel"] { font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+/* 既存のデジタル・Webフォント */
+[data-font="digital7"] .time-display, [data-font="digital7"] .seconds-display { font-family: 'VT323', monospace; letter-spacing: 0.02em; }
+[data-font="sans"] .time-display, [data-font="sans"] .seconds-display { font-family: 'Share Tech Mono', monospace; letter-spacing: 0em; }
+[data-font="future"] .time-display, [data-font="future"] .seconds-display { font-family: 'Chakra Petch', sans-serif; font-weight: 700; }
+[data-font="pixel"] .time-display, [data-font="pixel"] .seconds-display { font-family: 'DotGothic16', sans-serif; }
 
-[data-font="serif"] { font-family: "New York", "Hiragino Mincho ProN", serif; }
-[data-font="serif"] .time-display, [data-font="serif"] .seconds-display, [data-font="serif"] .period-display { font-family: inherit; }
+/* 選択されたフォントに準拠して日付フォントも変化（デジタル系以外はフォント統一） */
+body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+body[data-font="mono-apple"] { font-family: "SF Mono", monospace; }
+body[data-font="serif-apple"] { font-family: "New York", serif; }
+body[data-font="hiragino-gothic"] { font-family: "Hiragino Sans", sans-serif; }
+body[data-font="hiragino-mincho"] { font-family: "Hiragino Mincho ProN", serif; }
 
-[data-font="mono"] { font-family: "SF Mono", monospace; }
-[data-font="mono"] .time-display, [data-font="mono"] .seconds-display, [data-font="mono"] .period-display { font-family: inherit; }
+/* フォントごとに大きさを最適化（Digital-7系のみ少し拡大） */
+body[data-font="digital7"] .time-display { font-size: 17vw; }
+body[data-font="digital7"].fullscreen-mode .time-display { font-size: 26vw; }
 
 /* --- 共通レイアウト --- */
 body {
@@ -58,11 +68,8 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
-body.fullscreen-mode {
-    justify-content: center;
-}
+body.fullscreen-mode { justify-content: center; }
 
-/* --- 時計表示エリア --- */
 .clock-container {
     text-align: center;
     padding: 20px;
@@ -77,10 +84,7 @@ body.fullscreen-mode {
     transition: opacity 0.1s ease-out;
 }
 
-body.fullscreen-mode .clock-container {
-    flex-grow: 0; 
-    margin: 0;
-}
+body.fullscreen-mode .clock-container { flex-grow: 0; margin: 0; }
 
 .date-display {
     font-size: 1.4rem; 
@@ -91,20 +95,8 @@ body.fullscreen-mode .clock-container {
     transition: color 0.2s, font-size 0.3s ease-in-out;
 }
 
-.time-wrapper {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-}
-
-.period-display {
-    font-size: 3.5vw;
-    font-weight: 700;
-    color: var(--sub-color);
-    margin-right: 15px;
-    display: none;
-    transition: font-size 0.3s ease-in-out;
-}
+.time-wrapper { display: flex; align-items: baseline; justify-content: center; }
+.period-display { font-size: 3.5vw; font-weight: 700; color: var(--sub-color); margin-right: 15px; display: none; }
 
 .time-display {
     font-size: 14vw;
@@ -118,12 +110,8 @@ body.fullscreen-mode .clock-container {
     -moz-osx-font-smoothing: grayscale;
 }
 
-.colon-blink {
-    animation: blink-animation 1s steps(2, start) infinite;
-}
-@keyframes blink-animation {
-    to { visibility: hidden; }
-}
+.colon-blink { animation: blink-animation 1s steps(2, start) infinite; }
+@keyframes blink-animation { to { visibility: hidden; } }
 
 .seconds-display {
     font-size: 7vw; 
@@ -135,167 +123,59 @@ body.fullscreen-mode .clock-container {
     -webkit-font-smoothing: antialiased;
 }
 
-.guide-text {
-    font-size: 0.75rem;
-    color: var(--sub-color);
-    margin-top: 20px;
-    opacity: 0.6;
-    transition: opacity 0.3s;
-}
+.guide-text { font-size: 0.75rem; color: var(--sub-color); margin-top: 20px; opacity: 0.6; transition: opacity 0.3s; }
 
-/* --- 全画面（ミニマル）モード有効時のスタイル調整 --- */
-body.fullscreen-mode .time-display {
-    font-size: 22vw;
-}
+/* 全画面モード */
+body.fullscreen-mode .time-display { font-size: 22vw; }
+body.fullscreen-mode .seconds-display { font-size: 11vw; margin-left: 25px; }
+body.fullscreen-mode .period-display { font-size: 5vw; }
+body.fullscreen-mode .date-display { font-size: 2.2rem; margin-bottom: 20px; }
+body.fullscreen-mode .guide-text { opacity: 0; }
 
-body.fullscreen-mode .seconds-display {
-    font-size: 11vw; 
-    margin-left: 25px;
-}
-
-body.fullscreen-mode .period-display {
-    font-size: 5vw;
-}
-
-body.fullscreen-mode .date-display {
-    font-size: 2.2rem;
-    margin-bottom: 20px;
-}
-
-body.fullscreen-mode .guide-text {
-    opacity: 0;
-}
-
-/* --- パネル関係 --- */
-.feature-panel {
-    background-color: var(--panel-bg);
-    border: 1px solid var(--border-color);
-    padding: 15px 25px;
-    border-radius: 16px;
-    margin-bottom: 10px;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-.panel-title {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--sub-color);
-    margin: 0;
-}
-
-.panel-row {
+/* ★ ドロップダウンメニューのiOS風デザイン装飾 */
+.dropdown-wrapper {
     display: flex;
-    gap: 10px;
     align-items: center;
+    gap: 8px;
+    padding: 2px 6px;
 }
-
-.feature-panel input {
-    background-color: var(--btn-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-    padding: 8px;
-    border-radius: 8px;
-    font-size: 1rem;
-    text-align: center;
-}
-
-#timer-setup input { width: 50px; }
-.status-text { font-size: 0.8rem; color: var(--clock-color); }
-
-.countdown-row {
-    display: none;
-    font-size: 1.5rem;
-    font-weight: bold;
-    gap: 15px;
-    align-items: center;
-}
-
-/* --- コントロールUI群 --- */
-.controls-container {
-    margin-bottom: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    transition: opacity 0.3s, transform 0.3s;
-}
-
-body.fullscreen-mode .controls-container,
-body.fullscreen-mode .feature-panel {
-    opacity: 0;
-    transform: translateY(20px);
-    pointer-events: none;
-    position: absolute;
-}
-
-.controls-row {
-    display: flex;
-    gap: 12px;
-    background-color: var(--control-bg);
-    padding: 5px;
-    border-radius: 12px;
-    align-items: center;
-}
-
-.btn-group {
-    display: flex;
-    background-color: var(--btn-bg);
-    border-radius: 8px;
-    padding: 2px;
-}
-
-.font-group button {
-    padding: 6px 9px;
-    font-size: 0.75rem;
-}
-
-button {
-    background: none;
-    border: none;
-    color: var(--text-color);
-    padding: 6px 12px;
+.dropdown-label {
     font-size: 0.8rem;
     font-weight: 600;
-    border-radius: 6px;
+    color: var(--text-color);
+}
+#font-selector {
+    background-color: var(--btn-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 6px 24px 6px 12px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
+    outline: none;
+    /* iOS標準のプルダウン矢印を活かす設定 */
+    -webkit-appearance: listbox; 
 }
 
-button.active {
-    background-color: var(--btn-active);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
+/* パネル、ボタン、コントロールUI（前回のまま変更なし） */
+.feature-panel { background-color: var(--panel-bg); border: 1px solid var(--border-color); padding: 15px 25px; border-radius: 16px; margin-bottom: 10px; display: none; flex-direction: column; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.panel-title { font-size: 0.9rem; font-weight: 600; color: var(--sub-color); margin: 0; }
+.panel-row { display: flex; gap: 10px; align-items: center; }
+.feature-panel input { background-color: var(--btn-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 8px; border-radius: 8px; font-size: 1rem; text-align: center; }
+#timer-setup input { width: 50px; }
+.status-text { font-size: 0.8rem; color: var(--clock-color); }
+.countdown-row { display: none; font-size: 1.5rem; font-weight: bold; gap: 15px; align-items: center; }
+.controls-container { margin-bottom: 30px; display: flex; flex-direction: column; gap: 10px; align-items: center; transition: opacity 0.3s, transform 0.3s; }
+body.fullscreen-mode .controls-container, body.fullscreen-mode .feature-panel { opacity: 0; transform: translateY(20px); pointer-events: none; position: absolute; }
+.controls-row { display: flex; gap: 12px; background-color: var(--control-bg); padding: 5px; border-radius: 12px; align-items: center; }
+.btn-group { display: flex; background-color: var(--btn-bg); border-radius: 8px; padding: 2px; }
+button { background: none; border: none; color: var(--text-color); padding: 6px 12px; font-size: 0.8rem; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+button.active { background-color: var(--btn-active); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 .action-btn { background-color: var(--clock-color); color: #fff; padding: 6px 15px; }
 .cancel-btn { background-color: #ff3b30; color: white; }
 .sub-action-btn { background: none; border: 1px solid var(--border-color); color: var(--sub-color); font-size: 0.7rem; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
-
-.color-picker-wrapper, .brightness-wrapper {
-    display: flex;
-    align-items: center;
-    font-size: 0.8rem;
-    padding: 0 5px;
-    gap: 5px;
-}
-.color-picker-wrapper input[type="color"] {
-    border: none;
-    background: none;
-    width: 28px;
-    height: 28px;
-    cursor: pointer;
-}
-.brightness-wrapper input[type="range"] {
-    width: 70px;
-    cursor: pointer;
-}
-
-/* 大型ディスプレイ用のフォント上限設定 */
-@media (min-width: 1200px) {
-    body.fullscreen-mode .time-display { font-size: 15rem; }
-    body.fullscreen-mode .seconds-display { font-size: 7.5rem; }
-    body.fullscreen-mode .period-display { font-size: 3rem; }
-}
+.color-picker-wrapper, .brightness-wrapper { display: flex; align-items: center; font-size: 0.8rem; padding: 0 5px; gap: 5px; }
+.color-picker-wrapper input[type="color"] { border: none; background: none; width: 28px; height: 28px; cursor: pointer; }
+.brightness-wrapper input[type="range"] { width: 70px; cursor: pointer; }
+@media (min-width: 1200px) { body.fullscreen-mode .time-display { font-size: 15rem; } body.fullscreen-mode .seconds-display { font-size: 7.5rem; } body.fullscreen-mode .period-display { font-size: 3rem; } }
