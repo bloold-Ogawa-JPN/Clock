@@ -24,10 +24,10 @@
 }
 
 /* --- フォントファミリーの定義 --- */
-[data-font="sans"] .time-display, [data-font="sans"] .seconds-display, [data-font="sans"] .period-display { font-family: 'Orbitron', sans-serif; letter-spacing: 0.05em; }
+[data-font="sans"] .time-display, [data-font="sans"] .seconds-display, [data-font="sans"] .period-display { font-family: 'Share Tech Mono', monospace; font-weight: normal; letter-spacing: 0em; }
 [data-font="sans"] { font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
 
-[data-font="future"] .time-display, [data-font="future"] .seconds-display, [data-font="future"] .period-display { font-family: 'Share Tech Mono', monospace; }
+[data-font="future"] .time-display, [data-font="future"] .seconds-display, [data-font="future"] .period-display { font-family: 'Chakra Petch', sans-serif; font-weight: 700; }
 [data-font="future"] { font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
 
 [data-font="pixel"] .time-display, [data-font="pixel"] .seconds-display, [data-font="pixel"] .period-display { font-family: 'DotGothic16', sans-serif; }
@@ -80,18 +80,19 @@ body.fullscreen-mode .clock-container {
     margin: 0;
 }
 
+/* ★ 通常モード時のカレンダー（日付表示）を大きく修正 */
 .date-display {
-    font-size: 1.4rem;
-    font-weight: 500;
+    font-size: 2.2rem; /* 1.4rem から拡大 */
+    font-weight: 600;
     color: var(--clock-color);
-    letter-spacing: 0.05em;
-    margin-bottom: 12px; /* 時刻とのバランスを取るため少し広げました */
+    letter-spacing: 0.08em; /* 文字の間隔を少し広げて視認性向上 */
+    margin-bottom: 20px;   /* 時刻の文字との間隔を確保 */
     transition: color 0.2s, font-size 0.3s ease-in-out;
 }
 
 .time-wrapper {
     display: flex;
-    align-items: baseline; /* 文字の底辺ラインを揃える */
+    align-items: baseline;
     justify-content: center;
 }
 
@@ -105,13 +106,15 @@ body.fullscreen-mode .clock-container {
 }
 
 .time-display {
-    font-size: 14vw; /* 分表示のベースサイズ */
+    font-size: 14vw;
     font-weight: 700;
     line-height: 1;
     font-variant-numeric: tabular-nums;
     color: var(--clock-color);
     transition: color 0.2s, font-size 0.3s ease-in-out;
-/*    text-shadow: 0 0 15px var(--clock-color); */
+    text-shadow: none !important; 
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .colon-blink {
@@ -121,30 +124,29 @@ body.fullscreen-mode .clock-container {
     to { visibility: hidden; }
 }
 
-/* ★ 通常時の秒表示を拡大（14vwの約半分である 7vw に設定） */
 .seconds-display {
     font-size: 7vw; 
     font-weight: 400;
     color: var(--clock-color);
-    margin-left: 18px; /* 文字が大きくなったので余白を少し拡張 */
+    margin-left: 18px;
     transition: color 0.2s, font-size 0.3s ease-in-out;
-/*    text-shadow: 0 0 8px var(--clock-color); */
+    text-shadow: none !important;
+    -webkit-font-smoothing: antialiased;
 }
 
 .guide-text {
     font-size: 0.75rem;
     color: var(--sub-color);
-    margin-top: 20px;
+    margin-top: 25px;
     opacity: 0.6;
     transition: opacity 0.3s;
 }
 
 /* --- 全画面（ミニマル）モード有効時のスタイル調整 --- */
 body.fullscreen-mode .time-display {
-    font-size: 22vw; /* 全画面時の分表示ベースサイズ */
+    font-size: 22vw;
 }
 
-/* ★ 全画面時の秒表示を拡大（22vwの半分である 11vw に設定） */
 body.fullscreen-mode .seconds-display {
     font-size: 11vw; 
     margin-left: 25px;
@@ -154,9 +156,11 @@ body.fullscreen-mode .period-display {
     font-size: 5vw;
 }
 
+/* ★ 全画面モード時のカレンダー（日付表示）をさらに大きく修正 */
 body.fullscreen-mode .date-display {
-    font-size: 2.2rem;
-    margin-bottom: 24px;
+    font-size: 3.5rem; /* 2.2rem から大幅に拡大 */
+    font-weight: 700;
+    margin-bottom: 35px; /* 時刻の文字との間隔をさらに広げて美しく */
 }
 
 body.fullscreen-mode .guide-text {
@@ -293,6 +297,6 @@ button.active {
 /* 大型ディスプレイ用のフォント上限設定 */
 @media (min-width: 1200px) {
     body.fullscreen-mode .time-display { font-size: 15rem; }
-    body.fullscreen-mode .seconds-display { font-size: 7.5rem; } /* デスクトップ時も15remの半分に固定 */
+    body.fullscreen-mode .seconds-display { font-size: 7.5rem; }
     body.fullscreen-mode .period-display { font-size: 3rem; }
 }
