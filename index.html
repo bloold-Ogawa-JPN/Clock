@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <!-- スマホでの拡大縮小を禁止し、アプリの操作感にする設定 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>iOS Style Clock</title>
+    
+    <!-- ======================================================= -->
+    <!-- ★ iPhoneアプリ化（PWA）のための設定 -->
+    <!-- ======================================================= -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="デジタル時計">
+    <!-- ホーム画面に表示されるアイコン画像の指定（同一フォルダに配置） -->
+    <link rel="apple-touch-icon" href="icon.png">
+    <!-- ======================================================= -->
+
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=DotGothic16&family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark" data-font="sans">
+
+    <!-- 時計表示部分（クリックで全画面モード切り替え） -->
+    <div class="clock-container" onclick="toggleFullscreen()">
+        <div class="date-display" id="date">----年--月--日 (-)</div>
+        <div class="time-wrapper">
+            <span class="period-display" id="period">AM</span>
+            <div class="time-display">
+                <span id="time-hours">00</span><span id="time-colon" class="colon-blink">:</span><span id="time-minutes">00</span>
+            </div>
+            <span class="seconds-display" id="seconds">00</span>
+        </div>
+        <div class="guide-text" id="fullscreen-guide">画面をタップして全画面表示</div>
+    </div>
+
+    <!-- アラーム設定パネル -->
+    <div class="feature-panel" id="alarm-panel">
+        <p class="panel-title">⏰ アラーム設定</p>
+        <div class="panel-row">
+            <input type="time" id="alarm-time">
+            <button class="action-btn" id="btn-alarm-toggle" onclick="toggleAlarm()">セット</button>
+        </div>
+        <span id="alarm-status" class="status-text">未設定</span>
+        <button class="sub-action-btn" onclick="requestNotificationPermission()">通知許可をリクエスト</button>
+    </div>
+
+    <!-- タイマー設定パネル -->
+    <div class="feature-panel" id="timer-panel">
+        <p class="panel-title">⏱️ タイマー</p>
+        <div class="panel-row" id="timer-setup">
+            <input type="number" id="timer-min" min="0" max="59" value="3"> 分
+            <input type="number" id="timer-sec" min="0" max="59" value="0"> 秒
+            <button class="action-btn" onclick="startTimer()">開始</button>
+        </div>
+        <div id="timer-countdown" class="countdown-row">
+            <span id="timer-display-text">03:00</span>
+            <button class="cancel-btn" onclick="resetTimer()">キャンセル</button>
+        </div>
+    </div>
+
+    <!-- 設定コントロール -->
+    <div class="controls-container">
+        <div class="controls-row">
+            <div class="btn-group">
+                <button id="tab-clock" class="active" onclick="switchTab('clock')">時計</button>
+                <button id="tab-alarm" onclick="switchTab('alarm')">アラーム</button>
+                <button id="tab-timer" onclick="switchTab('timer')">タイマー</button>
+            </div>
+        </div>
+        <div class="controls-row">
+            <div class="btn-group">
+                <button id="btn-theme-dark" onclick="changeTheme('dark')">Dark</button>
+                <button id="btn-theme-light" onclick="changeTheme('light')">Light</button>
+            </div>
+            <div class="btn-group">
+                <button id="btn-format-24h" onclick="changeFormat(true)">24H</button>
+                <button id="btn-format-12h" onclick="changeFormat(false)">12H</button>
+            </div>
+            <div class="color-picker-wrapper">
+                🎨 <input type="color" id="clock-color-picker" onchange="changeClockColor(this.value)" value="#ff9500">
+            </div>
+            <div class="brightness-wrapper">
+                🔆 <input type="range" id="brightness-slider" min="10" max="100" value="100" oninput="changeBrightness(this.value)">
+            </div>
+        </div>
+        <div class="controls-row">
+            <div class="btn-group font-group">
+                <button id="btn-font-sans" onclick="changeFont('sans')">Digital</button>
+                <button id="btn-font-future" onclick="changeFont('future')">Cyber</button>
+                <button id="btn-font-pixel" onclick="changeFont('pixel')">Pixel</button>
+                <button id="btn-font-serif" onclick="changeFont('serif')">Serif</button>
+                <button id="btn-font-mono" onclick="changeFont('mono')">Mono</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
