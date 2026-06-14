@@ -111,7 +111,7 @@ body.fullscreen-mode .clock-container {
     font-variant-numeric: tabular-nums;
     color: var(--clock-color);
     transition: color 0.2s, font-size 0.3s ease-in-out;
-    text-shadow: 0 0 15px var(--clock-color);
+/*    text-shadow: 0 0 15px var(--clock-color); */
 }
 
 .colon-blink {
@@ -128,7 +128,7 @@ body.fullscreen-mode .clock-container {
     color: var(--clock-color);
     margin-left: 18px; /* 文字が大きくなったので余白を少し拡張 */
     transition: color 0.2s, font-size 0.3s ease-in-out;
-    text-shadow: 0 0 8px var(--clock-color);
+/*    text-shadow: 0 0 8px var(--clock-color); */
 }
 
 .guide-text {
