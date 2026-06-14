@@ -7,7 +7,7 @@
     <title>iOS Style Clock</title>
     
     <!-- ======================================================= -->
-    <!-- ★ iPhoneアプリ化（PWA）のための設定 -->
+    <!-- 📱 iPhoneアプリ化（PWA）のための設定 -->
     <!-- ======================================================= -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -16,11 +16,10 @@
     <link rel="apple-touch-icon" href="icon.png">
     <!-- ======================================================= -->
 
+    <!-- 各種デジタル・バリエーションフォントをインポート -->
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-/*    <link href="https://googleapis.com/css2?family=DotGothic16&family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"> 
-    <link href="https://googleapis.com/css2?family=Chakra+Petch:wght@700&family=Share+Tech+Mono&family=DotGothic16&display=swap" rel="stylesheet"> */
-  　<link href="https://googleapis.com/css2?family=Chakra+Petch:wght@700&family=DotGothic16&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+    <link href="https://googleapis.com/css2?family=Chakra+Petch:wght@700&family=DotGothic16&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body data-theme="dark" data-font="sans">
@@ -65,6 +64,7 @@
 
     <!-- 設定コントロール -->
     <div class="controls-container">
+        <!-- 1段目：機能切り替え -->
         <div class="controls-row">
             <div class="btn-group">
                 <button id="tab-clock" class="active" onclick="switchTab('clock')">時計</button>
@@ -72,6 +72,7 @@
                 <button id="tab-timer" onclick="switchTab('timer')">タイマー</button>
             </div>
         </div>
+        <!-- 2段目：外観、時間表記、カラーセレクター、明るさ調整 -->
         <div class="controls-row">
             <div class="btn-group">
                 <button id="btn-theme-dark" onclick="changeTheme('dark')">Dark</button>
@@ -81,13 +82,16 @@
                 <button id="btn-format-24h" onclick="changeFormat(true)">24H</button>
                 <button id="btn-format-12h" onclick="changeFormat(false)">12H</button>
             </div>
+            <!-- カラーパレット -->
             <div class="color-picker-wrapper">
                 🎨 <input type="color" id="clock-color-picker" onchange="changeClockColor(this.value)" value="#ff9500">
             </div>
+            <!-- 明るさスライダー（ディマー機能） -->
             <div class="brightness-wrapper">
                 🔆 <input type="range" id="brightness-slider" min="10" max="100" value="100" oninput="changeBrightness(this.value)">
             </div>
         </div>
+        <!-- 3段目：フォント切り替え -->
         <div class="controls-row">
             <div class="btn-group font-group">
                 <button id="btn-font-sans" onclick="changeFont('sans')">Digital</button>
