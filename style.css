@@ -24,10 +24,12 @@
 }
 
 /* --- フォントファミリーの定義 --- */
-[data-font="sans"] .time-display, [data-font="sans"] .seconds-display, [data-font="sans"] .period-display { font-family: 'Share Tech Mono', monospace; font-weight: normal; letter-spacing: 0em; }
+[data-font="sans"] .time-display, [data-font="sans"] .seconds-display, [data-font="sans"] .period-display { font-family: 'VT323', monospace; font-weight: normal; letter-spacing: 0.02em; }
+body[data-font="sans"] .time-display { font-size: 17vw; }
+body[data-font="sans"].fullscreen-mode .time-display { font-size: 26vw; }
 [data-font="sans"] { font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
 
-[data-font="future"] .time-display, [data-font="future"] .seconds-display, [data-font="future"] .period-display { font-family: 'Chakra Petch', sans-serif; font-weight: 700; }
+[data-font="future"] .time-display, [data-font="future"] .seconds-display, [data-font="future"] .period-display { font-family: 'Chakra Petch', sans-serif; font-weight: 700; letter-spacing: 0em; }
 [data-font="future"] { font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
 
 [data-font="pixel"] .time-display, [data-font="pixel"] .seconds-display, [data-font="pixel"] .period-display { font-family: 'DotGothic16', sans-serif; }
@@ -80,13 +82,13 @@ body.fullscreen-mode .clock-container {
     margin: 0;
 }
 
-/* ★ 通常モード時のカレンダー（日付表示）を大きく修正 */
+/* ★ 通常モード時の日付サイズを元（1.4rem）に修正 */
 .date-display {
-    font-size: 2.2rem; /* 1.4rem から拡大 */
-    font-weight: 600;
+    font-size: 1.4rem; 
+    font-weight: 500;
     color: var(--clock-color);
-    letter-spacing: 0.08em; /* 文字の間隔を少し広げて視認性向上 */
-    margin-bottom: 20px;   /* 時刻の文字との間隔を確保 */
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
     transition: color 0.2s, font-size 0.3s ease-in-out;
 }
 
@@ -137,7 +139,7 @@ body.fullscreen-mode .clock-container {
 .guide-text {
     font-size: 0.75rem;
     color: var(--sub-color);
-    margin-top: 25px;
+    margin-top: 20px;
     opacity: 0.6;
     transition: opacity 0.3s;
 }
@@ -156,11 +158,10 @@ body.fullscreen-mode .period-display {
     font-size: 5vw;
 }
 
-/* ★ 全画面モード時のカレンダー（日付表示）をさらに大きく修正 */
+/* ★ 全画面モード時の日付サイズを元（2.2rem）に修正 */
 body.fullscreen-mode .date-display {
-    font-size: 3.5rem; /* 2.2rem から大幅に拡大 */
-    font-weight: 700;
-    margin-bottom: 35px; /* 時刻の文字との間隔をさらに広げて美しく */
+    font-size: 2.2rem;
+    margin-bottom: 20px;
 }
 
 body.fullscreen-mode .guide-text {
