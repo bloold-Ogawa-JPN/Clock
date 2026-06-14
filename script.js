@@ -1,12 +1,10 @@
-// --- 状態管理 (brightnessを追加) ---
-let settings = { theme: 'dark', is24Hour: true, font: 'sans', color: '#ff9500', brightness: 100 };
+let settings = { theme: 'dark', is24Hour: true, font: 'sans-apple', color: '#ff9500', brightness: 100 };
 let activeTab = 'clock';
 let alarmTime = null;
 let isAlarmSet = false;
 let timerInterval = null;
 let timerTimeLeft = 0;
 
-// --- Web Audio API（アラーム音） ---
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function playAlarmSound() {
     const osc = audioCtx.createOscillator();
@@ -20,7 +18,6 @@ function playAlarmSound() {
     osc.stop(audioCtx.currentTime + 2.0);
 }
 
-// --- Notification API (Web通知機能) ---
 function requestNotificationPermission() {
     if (!("Notification" in window)) {
         alert("このブラウザはWeb通知をサポートしていません。");
@@ -40,14 +37,12 @@ function triggerNotification(title, message) {
     }
 }
 
-// --- 1. 全画面モード ---
 function toggleFullscreen() {
     document.body.classList.toggle('fullscreen-mode');
     const isFull = document.body.classList.contains('fullscreen-mode');
     document.getElementById('fullscreen-guide').textContent = isFull ? "画面をタップしてメニューを表示" : "画面をタップして全画面表示";
 }
 
-// --- 2. タブ切り替え ---
 function switchTab(tab) {
     activeTab = tab;
     document.getElementById('tab-clock').classList.toggle('active', tab === 'clock');
@@ -57,7 +52,6 @@ function switchTab(tab) {
     document.getElementById('timer-panel').style.display = (tab === 'timer') ? 'flex' : 'none';
 }
 
-// --- 3. アラームロジック ---
 function toggleAlarm() {
     const input = document.getElementById('alarm-time');
     const status = document.getElementById('alarm-status');
@@ -88,7 +82,6 @@ function checkAlarm(currentHHMM) {
     }
 }
 
-// --- 4. タイマーロジック ---
 function startTimer() {
     const min = parseInt(document.getElementById('timer-min').value) || 0;
     const sec = parseInt(document.getElementById('timer-sec').value) || 0;
@@ -124,7 +117,6 @@ function updateTimerDisplay() {
     document.getElementById('timer-display-text').textContent = `${m}:${s}`;
 }
 
-// --- 5. カラー変更ロジック ---
 function changeClockColor(colorCode) {
     settings.color = colorCode;
     saveSettings();
@@ -139,26 +131,23 @@ function applyClockColor(colorCode) {
     });
 }
 
-// --- 6. 明るさ変更（ディマー）ロジック ---
 function changeBrightness(value) {
     settings.brightness = parseInt(value);
     saveSettings();
     applyBrightness(settings.brightness);
 }
 function applyBrightness(value) {
-    // 0〜100 の値を 0.1〜1.0 の透明度に変換してCSS変数へ代入
     const opacity = value / 100;
     document.documentElement.style.setProperty('--clock-opacity', opacity);
     document.getElementById('brightness-slider').value = value;
 }
 
-// --- 7. 設定のロードと保存 ---
 function loadSettings() {
     const saved = localStorage.getItem('clock_settings');
     if (saved) settings = JSON.parse(saved);
     applyTheme(settings.theme);
     applyFormat(settings.is24Hour);
-    applyFont(settings.font);
+    applyFont(settings.font || 'sans-apple');
     applyClockColor(settings.color || '#ff9500');
     applyBrightness(settings.brightness !== undefined ? settings.brightness : 100);
 }
@@ -177,18 +166,13 @@ function applyFormat(is24h) {
     document.getElementById('btn-format-12h').classList.toggle('active', !is24h);
 }
 
-// 5種のフォント切り替え
+// ★ ドロップダウン選択に合わせたスクリプトの書き換え
 function changeFont(fontType) { settings.font = fontType; saveSettings(); applyFont(fontType); }
 function applyFont(fontType) {
     document.body.setAttribute('data-font', fontType);
-    document.getElementById('btn-font-sans').classList.toggle('active', fontType === 'sans');
-    document.getElementById('btn-font-future').classList.toggle('active', fontType === 'future');
-    document.getElementById('btn-font-pixel').classList.toggle('active', fontType === 'pixel');
-    document.getElementById('btn-font-serif').classList.toggle('active', fontType === 'serif');
-    document.getElementById('btn-font-mono').classList.toggle('active', fontType === 'mono');
+    document.getElementById('font-selector').value = fontType; // セレクトボックスの状態を同期
 }
 
-// --- 8. メインクロック同期処理 ---
 function updateClock() {
     const now = new Date();
     const year = now.getFullYear();
@@ -220,7 +204,6 @@ function updateClock() {
     document.getElementById('seconds').textContent = seconds;
 }
 
-// アプリケーション起動
 loadSettings();
 updateClock();
 setInterval(updateClock, 1000);
