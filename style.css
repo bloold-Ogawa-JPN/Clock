@@ -203,3 +203,53 @@ button.active { background-color: var(--btn-active); box-shadow: 0 2px 4px rgba(
         pointer-events: none;
     }
 }
+/* --- 1段目の横並び・UIスリム化のための追加CSS --- */
+/* 1段目の要素を左右に綺麗に配置し、要素間に隙間を作る */
+.controls-row.flex-row-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 5px 10px; /* 横の余白を少し広げて見やすく */
+}
+/* 時報設定のレイアウト調整 */
+.chime-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+/* ラベルの文字が折り返さないように固定 */
+.chime-label {
+    white-space: nowrap;
+}
+/* チェックボックスの大きさ調整 */
+#chime-toggle {
+    margin: 0;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+/* 時報セレクトボックスを1段目に馴染むサイズに調整 */
+#chime-sound-selector {
+    background-color: var(--btn-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 4px 6px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    -webkit-appearance: listbox;
+}
+/* 画面幅が非常に狭いスマホ向けの微調整（念のため） */
+@media (max-width: 360px) {
+    .controls-row.flex-row-between {
+        gap: 8px;
+        padding: 5px;
+    }
+    .chime-wrapper {
+        gap: 4px;
+    }
+}
