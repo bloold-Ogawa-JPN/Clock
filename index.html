@@ -20,7 +20,7 @@
 <body data-theme="dark" data-font="sans-apple">
 
     <!-- 時計表示部分 -->
-    <div class="clock-container" onclick="toggleFullscreen()">
+    <div class="clock-container" onclick="toggleFullscreenWithWakeLock()">
         <div class="date-display" id="date">----年--月--日 (-)</div>
         <div class="time-wrapper">
             <span class="period-display" id="period">AM</span>
@@ -29,7 +29,7 @@
             </div>
             <span class="seconds-display" id="seconds">00</span>
         </div>
-        <div class="guide-text" id="fullscreen-guide">画面をタップして全画面表示</div>
+        <div class="guide-text" id="fullscreen-guide">画面をタップして全画面・常時ON表示</div>
     </div>
 
     <!-- アラーム設定パネル -->
@@ -107,6 +107,62 @@
         </div>
     </div>
 
+    <!-- 既存のロジック読み込み -->
     <script src="script.js"></script>
+
+    <!-- 自動消灯防止（Wake Lock）追加ロジック -->
+    <script>
+        let wakeLock = null;
+
+        // 常時ONを有効化する関数
+        async function activateWakeLock() {
+            if ('wakeLock' in navigator) {
+                try {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                    console.log('画面常時ONが有効になりました');
+                } catch (err) {
+                    console.error(`Wake Lockエラー: ${err.message}`);
+                }
+            }
+        }
+
+        // 常時ONを解除する関数
+        function deactivateWakeLock() {
+            if (wakeLock !== null) {
+                wakeLock.release();
+                wakeLock = null;
+                console.log('画面常時ONが解除されました');
+            }
+        }
+
+        // 既存の toggleFullscreen と連動する新しい関数
+        async function toggleFullscreenWithWakeLock() {
+            // 1. 既存のscript.jsにある全画面切り替え関数を実行
+            if (typeof toggleFullscreen === 'function') {
+                toggleFullscreen();
+            }
+
+            // 2. フルスクリーン状態に応じて常時ONを切り替え
+            // iOS等で完全なDocumentフルスクリーンに対応していない場合を考慮し、
+            // タップされるたびに有効化（すでに有効ならスキップ）する安全設計にしています
+            if (wakeLock === null) {
+                await activateWakeLock();
+                // ガイドテキストを書き換え
+                const guide = document.getElementById('fullscreen-guide');
+                if (guide) guide.innerText = "画面をタップして解除 (常時ON稼働中)";
+            } else {
+                deactivateWakeLock();
+                const guide = document.getElementById('fullscreen-guide');
+                if (guide) guide.innerText = "画面をタップして全画面・常時ON表示";
+            }
+        }
+
+        // アプリがバックグラウンドに引っ込んで戻ってきたときに自動再取得する処理
+        document.addEventListener('visibilitychange', async () => {
+            if (wakeLock !== null && document.visibilityState === 'visible') {
+                await activateWakeLock();
+            }
+        });
+    </script>
 </body>
 </html>
