@@ -59,12 +59,24 @@
 
     <!-- 設定コントロール -->
     <div class="controls-container">
-        <!-- 1段目：機能切り替え -->
-        <div class="controls-row">
+       　<!-- 1段目：機能切り替え ＆ 時報設定（横並び） -->
+　　     <div class="controls-row flex-row-between">
+            <!-- タブボタン群 -->
             <div class="btn-group">
                 <button id="tab-clock" class="active" onclick="switchTab('clock')">時計</button>
                 <button id="tab-alarm" onclick="switchTab('alarm')">アラーム</button>
                 <button id="tab-timer" onclick="switchTab('timer')">タイマー</button>
+            </div>
+            <!-- 移動してきた時報設定 -->
+            <div class="chime-wrapper">
+                <span class="chime-label">🔔時報:</span>
+                <input type="checkbox" id="chime-toggle">
+                <select id="chime-sound-selector">
+                    <option value="standard">標準 (ピッ、ポーン)</option>
+                    <option value="pips">電子音 (4点)</option>
+                    <option value="crystal">クリスタル</option>
+                    <option value="temple">和風 (鐘)</option>
+                </select>
             </div>
         </div>
         <!-- 2段目：外観、時間表記、カラー、明るさ -->
@@ -102,19 +114,6 @@
                     <option value="sans">Digital (スマート液晶)</option>
                     <option value="future">Cyber (近未来)</option>
                     <option value="pixel">Pixel (8-Bitレトロ)</option>
-                </select>
-            </div>
-        </div>
-        <!-- 4段目：時報設定（オンオフ＆音色選択） -->
-        <div class="controls-row">
-            <div class="chime-wrapper" style="display: flex; align-items: center; gap: 10px; font-size: 0.8rem; font-weight: 600;">
-                🔔 時報: 
-                <input type="checkbox" id="chime-toggle" style="transform: scale(1.2); cursor: pointer;">
-                <select id="chime-sound-selector" style="background-color: var(--btn-bg); color: var(--text-color); border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; outline: none; -webkit-appearance: listbox;">
-                    <option value="standard">スタンダード (ピッ、ポーン)</option>
-                    <option value="pips">電子音4点 (ピッ、ピッ、ピッ、ポーン)</option>
-                    <option value="crystal">クリスタル (高音ツインベル)</option>
-                    <option value="temple">和風 (お寺の鐘・余韻付き)</option>
                 </select>
             </div>
         </div>
