@@ -179,3 +179,27 @@ button.active { background-color: var(--btn-active); box-shadow: 0 2px 4px rgba(
 .color-picker-wrapper input[type="color"] { border: none; background: none; width: 28px; height: 28px; cursor: pointer; }
 .brightness-wrapper input[type="range"] { width: 70px; cursor: pointer; }
 @media (min-width: 1200px) { body.fullscreen-mode .time-display { font-size: 15rem; } body.fullscreen-mode .seconds-display { font-size: 7.5rem; } body.fullscreen-mode .period-display { font-size: 3rem; } }
+
+/* --- iOS Edge 横向き時のアドレスバー非表示対策 --- */
+@media (orientation: landscape) {
+    body {
+        /* 100vhから最新の動的ビューポート（100dvh）に変更 */
+        height: 100dvh; 
+        /* ほんの少しだけ縦スクロールを許可してEdgeのバー非表示をトリガーさせる */
+        overflow-y: auto; 
+        /* スクロール時のバウンス（バネ効果）を滑らかにする */
+        -webkit-overflow-scrolling: touch; 
+    }
+    
+    /* 画面全体を包む隠し要素で、1ピクセルだけ縦長にしてスクロールを発生させる */
+    body::after {
+        content: "";
+        display: block;
+        height: calc(100dvh + 1px);
+        width: 1px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+    }
+}
